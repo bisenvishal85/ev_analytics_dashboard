@@ -1,0 +1,32 @@
+{
+  "name": "mapup-ev-dashboard",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "file-saver": "^2.0.5",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.542.0",
+    "papaparse": "^5.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
+    "recharts": "^2.9.0",
+    "styled-components": "^5.3.11"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.7",
+    "@types/leaflet": "^1.9.20",
+    "@types/papaparse": "^5.3.16",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@types/styled-components": "^5.1.26",
+    "@vitejs/plugin-react": "^4.1.0",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.9"
+  }
+}
