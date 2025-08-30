@@ -15,20 +15,39 @@ import {
 } from "recharts";
 import styled from "styled-components";
 
+// Main grid: single column on mobile, expands on desktop
 const Grid = styled.div`
   display: grid;
-  gap: 12px;
+  gap: 16px;
   grid-template-columns: 1fr;
   @media (min-width: 900px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* keep charts stacked */
+  }
+`;
+
+// Subgrid for Top Makes + Type Distribution
+const SubGrid = styled.div`
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  @media (min-width: 700px) {
+    grid-template-columns: 1fr 1fr; /* side by side only on larger screens */
   }
 `;
 
 const ChartBox = styled.div`
   background: ${(p: any) => p.theme.cardBg};
-  padding: 10px;
-  border-radius: 8px;
+  padding: 12px;
+  border-radius: 12px;
   box-shadow: var(--smooth-shadow);
+  transition: background 0.3s ease;
+`;
+
+const Title = styled.h4`
+  margin: 6px 0 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
 `;
 
 const COLORS = ["#1976d2", "#60a5fa", "#16a34a", "#f59e0b", "#ef4444", "#7c3aed"];
@@ -65,35 +84,44 @@ export default function EVCharts({ rows }: { rows: any[] }) {
 
   return (
     <Grid>
+      {/* Line chart */}
       <ChartBox style={{ height: 280 }}>
-        <h4 style={{ margin: "6px 0" }}>EV Registrations by Year</h4>
+        <Title>EV Registrations by Year</Title>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={byYear}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="year" />
             <YAxis />
             <Tooltip />
-            <Line dataKey="count" stroke="#1976d2" />
+            <Line dataKey="count" stroke="#1976d2" strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>
       </ChartBox>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-        <ChartBox style={{ height: 260 }}>
-          <h4 style={{ margin: "6px 0" }}>Top Makes</h4>
+      {/* Subgrid for smaller charts */}
+      <SubGrid>
+        <ChartBox style={{ height: 280 }}>
+          <Title>Top Makes</Title>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={topMakes}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="make" interval={0} angle={-30} textAnchor="end" height={70} />
+              <XAxis
+                dataKey="make"
+                interval={0}
+                angle={-30}
+                textAnchor="end"
+                height={70}
+                tick={{ fontSize: 10 }}
+              />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="count" fill="#60a5fa" />
+              <Bar dataKey="count" fill="#60a5fa" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartBox>
 
-        <ChartBox style={{ height: 260 }}>
-          <h4 style={{ margin: "6px 0" }}>Type Distribution</h4>
+        <ChartBox style={{ height: 280 }}>
+          <Title>Type Distribution</Title>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie data={byType} dataKey="value" nameKey="name" outerRadius={80} label>
@@ -105,7 +133,7 @@ export default function EVCharts({ rows }: { rows: any[] }) {
             </PieChart>
           </ResponsiveContainer>
         </ChartBox>
-      </div>
+      </SubGrid>
     </Grid>
   );
 }
