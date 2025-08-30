@@ -80,7 +80,6 @@
 //   );
 // }
 
-
 // // src/components/DataTable.tsx
 // // import React, { useState } from "react";
 // // import Modal from "./Modal";
@@ -156,7 +155,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { saveAs } from "file-saver";
-import { MapPin, X } from "lucide-react"; // ✅ added X icon
+import { Eye, MapPin, X } from "lucide-react"; // ✅ added X icon
 import Modal from "./Modal";
 import { MapView } from "./MapView";
 
@@ -218,15 +217,15 @@ export default function DataTable({ rows }: { rows: any[] }) {
       Object.keys(r._raw ?? {}).forEach((k) => headers.add(k));
     });
     const hdr = Array.from(headers);
-    const csv = [hdr.join(",")].concat(
-      rows.map((r) =>
-        hdr
-          .map((h) =>
-            `"${String(r._raw?.[h] ?? "").replace(/"/g, '""')}"`
-          )
-          .join(",")
+    const csv = [hdr.join(",")]
+      .concat(
+        rows.map((r) =>
+          hdr
+            .map((h) => `"${String(r._raw?.[h] ?? "").replace(/"/g, '""')}"`)
+            .join(",")
+        )
       )
-    ).join("\n");
+      .join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     saveAs(blob, "ev_export.csv");
   };
@@ -313,9 +312,9 @@ export default function DataTable({ rows }: { rows: any[] }) {
                         cursor: "pointer",
                       }}
                       onClick={() => setSelectedRow(r)}
-                      title="View Location"
+                      title="View"
                     >
-                      <MapPin size={20} color="#1976d2" />
+                      <Eye size={20} color="#1976d2" />
                     </button>
                   ) : (
                     "-"
@@ -355,7 +354,9 @@ export default function DataTable({ rows }: { rows: any[] }) {
             </div>
 
             {/* ✅ Chips with 3 per row */}
-            <div style={{ display: "flex", flexWrap: "wrap",paddingBottom: 20 }}>
+            <div
+              style={{ display: "flex", flexWrap: "wrap", paddingBottom: 20 }}
+            >
               {[
                 ["Year", selectedRow.modelYear],
                 ["Make", selectedRow.make],
