@@ -2,10 +2,13 @@
   "name": "mapup-ev-dashboard",
   "version": "0.0.1",
   "private": true,
+  "homepage": "https://bisenvishal85.github.io/ev_analytics_dashboard",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "file-saver": "^2.0.5",
