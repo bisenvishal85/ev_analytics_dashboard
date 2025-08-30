@@ -182,6 +182,23 @@ const Table = styled.table`
   }
 `;
 
+const TableScroll = styled.div`
+  width: 100%;
+  max-height: 500px; /* you can adjust */
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+
+  /* For sticky headers */
+  thead th {
+    position: sticky;
+    top: 0;
+    background: ${(p: any) => p.theme.cardBg};
+    z-index: 2;
+  }
+`;
+
 const Chip = styled.span`
   display: inline-block;
   background: #f0f0f0;
@@ -241,7 +258,9 @@ export default function DataTable({ rows }: { rows: any[] }) {
             alignItems: "center",
           }}
         >
-          <div>Showing {rows.length} records</div>
+          <div style={{ fontWeight: "bold" }}>
+            Showing {rows.length} records
+          </div>
           <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
             {/* ✅ Rows per page selector */}
             <label style={{ fontSize: 13 }}>
@@ -277,53 +296,56 @@ export default function DataTable({ rows }: { rows: any[] }) {
               Next
             </button>
             <button onClick={exportCsv}>Export CSV</button>
-          </div>
+          </div>{" "}
         </div>
 
-        <Table>
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Make</th>
-              <th>Model</th>
-              <th>Type</th>
-              <th>Range</th>
-              <th>City</th>
-              <th>State</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pageRows.map((r, i) => (
-              <tr key={i}>
-                <td>{r.modelYear ?? ""}</td>
-                <td>{r.make ?? ""}</td>
-                <td>{r.model ?? ""}</td>
-                <td>{r.evType ?? ""}</td>
-                <td>{r.rangeMiles ?? ""}</td>
-                <td>{r.city ?? ""}</td>
-                <td>{r.state ?? ""}</td>
-                <td style={{ textAlign: "center" }}>
-                  {r.vehicleLocation ? (
-                    <button
-                      style={{
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => setSelectedRow(r)}
-                      title="View"
-                    >
-                      <Eye size={20} color="#1976d2" />
-                    </button>
-                  ) : (
-                    "-"
-                  )}
-                </td>
+        {/* ✅ Scrollable container for the table */}
+        <TableScroll>
+          <Table>
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Type</th>
+                <th>Range</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {pageRows.map((r, i) => (
+                <tr key={i}>
+                  <td>{r.modelYear ?? ""}</td>
+                  <td>{r.make ?? ""}</td>
+                  <td>{r.model ?? ""}</td>
+                  <td>{r.evType ?? ""}</td>
+                  <td>{r.rangeMiles ?? ""}</td>
+                  <td>{r.city ?? ""}</td>
+                  <td>{r.state ?? ""}</td>
+                  <td style={{ textAlign: "center" }}>
+                    {r.vehicleLocation ? (
+                      <button
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => setSelectedRow(r)}
+                        title="View"
+                      >
+                        <Eye size={20} color="#1976d2" />
+                      </button>
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableScroll>
       </TableWrap>
 
       {/* ✅ Popup with chips and close icon in header */}

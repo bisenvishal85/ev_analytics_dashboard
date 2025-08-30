@@ -63,40 +63,68 @@
 // };
 
 
-import React, { ReactNode } from "react";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+// import React, { ReactNode } from "react";
+// import { ThemeProvider, createGlobalStyle } from "styled-components";
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    font-family: "Inter", sans-serif;
-    background: ${(p: any) => p.theme.bodyBg};
-    color: ${(p: any) => p.theme.text};
-  }
+// const GlobalStyle = createGlobalStyle`
+//   body {
+//     margin: 0;
+//     font-family: "Inter", sans-serif;
+//     background: ${(p: any) => p.theme.bodyBg};
+//     color: ${(p: any) => p.theme.text};
+//   }
 
-  button {
-    font-family: inherit;
-    cursor: pointer;
-  }
+//   button {
+//     font-family: inherit;
+//     cursor: pointer;
+//   }
 
-  * {
-    box-sizing: border-box;
-  }
-`;
+//   * {
+//     box-sizing: border-box;
+//   }
+// `;
 
-const theme = {
-  bodyBg: "#f9f9f9",
-  text: "#333",
-  cardBg: "#fff",
-  primary: "#1976d2",
+// const theme = {
+//   bodyBg: "#f9f9f9",
+//   text: "#333",
+//   cardBg: "#fff",
+//   primary: "#1976d2",
+// };
+
+// export default function ThemeProviderWrapper({ children }: { children: ReactNode }) {
+//   return (
+//     <ThemeProvider theme={theme}>
+//       <GlobalStyle />
+//       {children}
+//     </ThemeProvider>
+//   );
+// }
+
+import React from "react";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
+import { ThemeProvider, useTheme } from "../context/ThemeContext";
+
+const lightTheme = {
+  cardBg: "#ffffff",
 };
 
-export default function ThemeProviderWrapper({ children }: { children: ReactNode }) {
+const darkTheme = {
+  cardBg: "#1f2937", // dark gray
+};
+
+const ThemeBridge = ({ children }: { children: React.ReactNode }) => {
+  const { theme } = useTheme();
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
+    <StyledThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       {children}
+    </StyledThemeProvider>
+  );
+};
+
+export default function ThemeProviderWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider>
+      <ThemeBridge>{children}</ThemeBridge>
     </ThemeProvider>
   );
 }
-
