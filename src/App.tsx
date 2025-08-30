@@ -768,6 +768,7 @@ const AppContainer = styled.div`
   margin: 0 auto;
   padding: 16px;
   font-family: "Inter", Arial, sans-serif;
+  color: ${(p: any) => p.theme.text};   // 👈 use theme text color
 `;
 
 const Header = styled.header`
@@ -784,6 +785,7 @@ const Title = styled.h1`
 
 const SectionCard = styled.div`
   background: ${(p: any) => p.theme.cardBg};
+  color: ${(p: any) => p.theme.text};   // 👈 use theme text color
   padding: 16px;
   border-radius: 12px;
   box-shadow: var(--smooth-shadow);
